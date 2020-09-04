@@ -1,4 +1,4 @@
-# sensitive-spring
+# spring-sensitive
 
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -9,7 +9,7 @@
 ```
  <dependency>
    <groupId>com.github.doobo</groupId>
-   <artifactId>sensitive-spring</artifactId>
+   <artifactId>spring-sensitive</artifactId>
    <version>1.0</version>
  </dependency>
 ```
