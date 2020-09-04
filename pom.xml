@@ -20,7 +20,7 @@
     </licenses>
 
     <scm>
-        <url>scm:https://github.com/doobo/spring-sensitive</url>
+        <url>https://github.com/doobo/spring-sensitive</url>
         <connection>scm:git:git@github.com:doobo/spring-sensitive.git</connection>
         <developerConnection>scm:git:git@github.com:doobo/spring-sensitive.git</developerConnection>
         <tag>HEAD</tag>
