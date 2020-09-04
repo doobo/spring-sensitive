@@ -24,7 +24,7 @@ public class DesensitizationAop {
         if(desensitizationController == null){
             return returnValue;
         }
-        String rs = JSON.toJSONString(returnValue, new SimpleValueFilter(desensitizationController),SerializerFeature.WriteMapNullValue);
+        String rs = JSON.toJSONString(returnValue, new SimpleValueFilter(desensitizationController), SerializerFeature.WriteMapNullValue);
         throw new FastJsonCustomException(JSON.parse(rs));
     }
 }
