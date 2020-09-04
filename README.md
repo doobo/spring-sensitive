@@ -21,8 +21,8 @@
  * @return
  */
 @DesensitizationController({
-    @DesensitizationAnnotation(value = SensitiveType.MOBILE_PHONE, key = {"phone", "idCard"}),
-    @DesensitizationAnnotation(value = SensitiveType.BANK_CARD, key = "bankCard")
+    @DesensitizationAnnotation(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
+    @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "bankCard")
 })
 @GetMapping("fast")
 public List<UserSensitive> sensitive(){

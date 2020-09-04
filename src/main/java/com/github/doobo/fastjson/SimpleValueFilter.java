@@ -19,10 +19,10 @@ public class SimpleValueFilter implements ValueFilter {
      */
     public SimpleValueFilter(DesensitizationController desensitizationController) {
         for (DesensitizationAnnotation desensitization : desensitizationController.value()) {
-            if(desensitization == null || desensitization.type() != HandleType.DEFAULT){
+            if(desensitization == null || desensitization.mode() != HandleType.DEFAULT){
                 continue;
             }
-            String[] key = desensitization.key();
+            String[] key = desensitization.fields();
             for (String k : key){
                 map.put(k, desensitization);
             }
@@ -44,7 +44,7 @@ public class SimpleValueFilter implements ValueFilter {
             if(StringUtils.isNotBlank(sensitiveInfo.regExp())){
                 return valueStr.replaceAll(sensitiveInfo.regExp(), sensitiveInfo.regStr());
             }
-            switch (sensitiveInfo.value()) {
+            switch (sensitiveInfo.type()) {
                 case CHINESE_NAME: {
                     return SensitiveInfoUtils.chineseName(valueStr);
                 }

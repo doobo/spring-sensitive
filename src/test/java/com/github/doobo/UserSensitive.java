@@ -30,4 +30,7 @@ public class UserSensitive {
 
 	@SensitiveInfo(value = SensitiveType.BANK_CARD)
 	String bankCard = "6222600000";
+	
+	@SensitiveInfo(value = SensitiveType.CHINESE_NAME)
+	Integer id;
 }

@@ -1,6 +1,5 @@
 package com.github.doobo.fastjson;
 
-
 import com.github.doobo.config.SensitiveType;
 
 import java.lang.annotation.ElementType;
@@ -16,13 +15,13 @@ import java.lang.annotation.Target;
 public @interface DesensitizationAnnotation {
     
     /*脱敏类型,默认电话号码*/
-    SensitiveType value() default SensitiveType.MOBILE_PHONE;
+    SensitiveType type() default SensitiveType.MOBILE_PHONE;
     
     /*脱敏字段,默认phone*/
-    String[] key() default "phone";
+    String[] fields() default "phone";
     
     /*处理方式,默认字段相等匹配*/
-    HandleType type() default HandleType.DEFAULT;
+    HandleType mode() default HandleType.DEFAULT;
     /**
      * 身份证和手机号前面保留几位
      */
