@@ -22,11 +22,12 @@
  */
 @DesensitizationController({
     @DesensitizationAnnotation(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
-    @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "bankCard")
+    @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[%d].bankCard", mode = HandleType.RGE_EXP),
+    @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
 })
 @GetMapping("fast")
 public List<UserSensitive> sensitive(){
-    return Collections.singletonList(new UserSensitive());
+    return Arrays.asList(new UserSensitive(), new UserSensitive());
 }
 ```
 

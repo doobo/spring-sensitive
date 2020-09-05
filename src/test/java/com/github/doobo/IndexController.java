@@ -3,9 +3,11 @@ package com.github.doobo;
 import com.github.doobo.config.SensitiveType;
 import com.github.doobo.fastjson.DesensitizationAnnotation;
 import com.github.doobo.fastjson.DesensitizationController;
+import com.github.doobo.fastjson.HandleType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,11 +20,12 @@ public class IndexController {
      */
     @DesensitizationController({
         @DesensitizationAnnotation(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
-        @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "bankCard")
+        @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[%d].bankCard", mode = HandleType.RGE_EXP),
+        @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
     })
     @GetMapping("fast")
     public List<UserSensitive> sensitive(){
-        return Collections.singletonList(new UserSensitive());
+        return Arrays.asList(new UserSensitive(), new UserSensitive());
     }
 
     /**
