@@ -4,10 +4,11 @@
 
     <groupId>com.github.doobo</groupId>
     <artifactId>spring-sensitive</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
-    <url>https://github.com/doobo/spring-sensitive</url>
+    <name>spring-sensitive</name>
     <description>A sensitive tool base on spring boot </description>
+    <url>https://github.com/doobo/spring-sensitive</url>
 
     <licenses>
         <license>
