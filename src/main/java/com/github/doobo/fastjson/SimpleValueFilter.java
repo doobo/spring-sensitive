@@ -6,17 +6,21 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * fastJson序列化时进行脱敏示例
+ */
 @Slf4j
+@Deprecated
 public class SimpleValueFilter implements ValueFilter {
 
-    private final Map<String, DesensitizationAnnotation> map = new HashMap<>();
+    private final Map<String, DesensitizationParam> map = new HashMap<>();
 
     /**
      * fastJson字符串匹配
      * @param desensitizationController
      */
-    public SimpleValueFilter(DesensitizationController desensitizationController) {
-        for (DesensitizationAnnotation desensitization : desensitizationController.value()) {
+    public SimpleValueFilter(DesensitizationParams desensitizationController) {
+        for (DesensitizationParam desensitization : desensitizationController.value()) {
             if(desensitization == null || desensitization.mode() != HandleType.DEFAULT){
                 continue;
             }
@@ -33,7 +37,7 @@ public class SimpleValueFilter implements ValueFilter {
             return value;
         }
         String valueStr = (String) value;
-        DesensitizationAnnotation sensitiveInfo = map.get(name);
+        DesensitizationParam sensitiveInfo = map.get(name);
         return DesensitizationAop.handlerDesensitization(sensitiveInfo, valueStr);
     }
 }

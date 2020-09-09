@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DesensitizationController {
+public @interface DesensitizationParams {
 
     /**
      * 脱敏自定义字段
      */
-    DesensitizationAnnotation[] value();
+    DesensitizationParam[] value();
 
 }

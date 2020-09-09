@@ -1,8 +1,8 @@
 package com.github.doobo;
 
 import com.github.doobo.config.SensitiveType;
-import com.github.doobo.fastjson.DesensitizationAnnotation;
-import com.github.doobo.fastjson.DesensitizationController;
+import com.github.doobo.fastjson.DesensitizationParam;
+import com.github.doobo.fastjson.DesensitizationParams;
 import com.github.doobo.fastjson.HandleType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,16 +16,15 @@ public class IndexController {
 
     /**
      * 基于fastJson的数据脱敏
-     * @return
      */
-    @DesensitizationController({
-        @DesensitizationAnnotation(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
-        @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[%d].bankCard", mode = HandleType.RGE_EXP),
-        @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
+    @DesensitizationParams({
+        @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
+        @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
+        @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
     })
     @GetMapping("fast")
-    public List<UserSensitive> sensitive(){
-        return Arrays.asList(new UserSensitive(), new UserSensitive());
+    public List<UserDesensitization> sensitive(){
+        return Arrays.asList(new UserDesensitization(), new UserDesensitization());
     }
 
     /**

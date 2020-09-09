@@ -2,9 +2,9 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-> 基于springboot的数据脱敏，实现了基于模型类和Controller层的两种方法
-* 选择任意一种即可,若同时使用，以Controller层脱敏为准
-
+> 基于springboot的数据脱敏，实现了"模型类"和"AOP注解"两种方法,选择其中一种即可
+* 选择任意一种即可,若同时使用，先执行controller层的脱敏，再执行模型类里面的脱敏(返回视图默认Jackson)
+* 基于AOP实现的，也可用于其它spring方法上
 ## 如何使用
 ```
  <dependency>
@@ -18,20 +18,19 @@
 ```
 /**
  * 基于fastJson的数据脱敏
- * @return
  */
-@DesensitizationController({
-    @DesensitizationAnnotation(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
-    @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[%d].bankCard", mode = HandleType.RGE_EXP),
-    @DesensitizationAnnotation(type = SensitiveType.BANK_CARD, fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
+@DesensitizationParams({
+    @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
+    @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
+    @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
 })
 @GetMapping("fast")
-public List<UserSensitive> sensitive(){
-    return Arrays.asList(new UserSensitive(), new UserSensitive());
+public List<UserDesensitization> sensitive(){
+    return Arrays.asList(new UserDesensitization(), new UserDesensitization());
 }
 ```
 
-## 使用jackson脱敏
+## 使用jackson脱敏,基于jackson的JsonSerialize实现
 ```java
 @Data
 public class UserSensitive {

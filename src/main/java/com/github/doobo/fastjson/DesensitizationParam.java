@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD , ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DesensitizationAnnotation {
+public @interface DesensitizationParam {
     
     /*脱敏类型,默认电话号码*/
     SensitiveType type() default SensitiveType.MOBILE_PHONE;

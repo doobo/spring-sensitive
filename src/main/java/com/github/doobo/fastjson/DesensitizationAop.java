@@ -2,8 +2,10 @@ package com.github.doobo.fastjson;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.doobo.config.SensitiveInfoUtils;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -22,26 +24,41 @@ import java.util.stream.Collectors;
 @Aspect
 public class DesensitizationAop {
 
-    @AfterReturning(value = "@annotation(DesensitizationController)", returning = "returnValue")
-    public Object before(JoinPoint joinPoint, Object returnValue) throws Throwable {
+    private final static Configuration CONF = Configuration.builder().options(Option.AS_PATH_LIST,Option.DEFAULT_PATH_LEAF_TO_NULL).build();
 
+    @AfterReturning(value = "@annotation(com.github.doobo.fastjson.DesensitizationParams)", returning = "returnValue")
+    public Object before(JoinPoint joinPoint, Object returnValue) throws Throwable {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        DesensitizationController desensitizationController = AnnotationUtils.getAnnotation(method , DesensitizationController.class);
+        DesensitizationParams desensitizationController = AnnotationUtils.getAnnotation(method , DesensitizationParams.class);
         if(desensitizationController == null){
             return returnValue;
         }
-        //加了正则处理
-        List<DesensitizationAnnotation> ds = getRexExpDes(desensitizationController);
-        filterRegExpValue(ds, returnValue);
-        String rs = JSON.toJSONString(returnValue, new SimpleValueFilter(desensitizationController), SerializerFeature.WriteMapNullValue);
-        throw new FastJsonCustomException(JSON.parse(rs));
+        List<DesensitizationParam> ds = getDes(desensitizationController);
+        try {
+            return filterValue(ds, returnValue);
+        }catch (Exception e){
+            log.error("JSONPathError",e);
+            throw new FastJsonCustomException(returnValue);
+        }
+    }
+
+    /**
+     * 获取所有注解
+     * @param desensitizationController
+     */
+    private List<DesensitizationParam> getDes(DesensitizationParams desensitizationController){
+        if(desensitizationController == null){
+            return Collections.emptyList();
+        }
+        return Arrays.stream(desensitizationController.value()).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     /**
      * 获取正则相关的注解
      * @param desensitizationController
      */
-    private List<DesensitizationAnnotation> getRexExpDes(DesensitizationController desensitizationController){
+    @Deprecated
+    private List<DesensitizationParam> getRexExpDes(DesensitizationParams desensitizationController){
         if(desensitizationController == null){
             return Collections.emptyList();
         }
@@ -54,15 +71,16 @@ public class DesensitizationAop {
     }
 
     /**
-     * 正则过滤匹配的值
+     * fastJson正则过滤匹配的值
      * @param ds
      * @param returnValue
      */
-    private void filterRegExpValue(List<DesensitizationAnnotation> ds, Object returnValue){
+    @Deprecated
+    private void filterRegExpValue(List<DesensitizationParam> ds, Object returnValue){
         if(ds == null || ds.isEmpty()){
             return;
         }
-        for(DesensitizationAnnotation item : ds){
+        for(DesensitizationParam item : ds){
            if(item.mode() != HandleType.RGE_EXP){
                continue;
            }
@@ -108,11 +126,47 @@ public class DesensitizationAop {
     }
 
     /**
+     *  JsonPath和FastJson过滤字段
+     * @param ds
+     * @param t
+     * @param <T>
+     */
+    private <T> T filterValue(List<DesensitizationParam> ds, T t){
+        if(ds == null || ds.isEmpty()){
+            return t;
+        }
+        for(DesensitizationParam item : ds){
+            String[] fs = item.fields();
+            if(fs.length == 0){
+                continue;
+            }
+            if(item.mode() == HandleType.DEFAULT){
+                fs = Arrays.stream(fs).map(m -> String.format("$..%s", m)).toArray(String[]::new);
+            }
+            for(String key : fs){
+                List<String> path = JsonPath.using(CONF).parse(JSON.toJSONString(t)).read(key);
+                if(path == null || path.isEmpty()){
+                    continue;
+                }
+                path.forEach(p->{
+                    if(JSONPath.contains(t, p)){
+                        Object value = JSONPath.eval(t, p);
+                        if(value instanceof String){
+                            JSONPath.set(t, p, handlerDesensitization(item, (String) value));
+                        }
+                    }
+                });
+            }
+        }
+        return t;
+    }
+
+    /**
      * 处理单个脱敏
      * @param sensitiveInfo
      * @param valueStr
      */
-    public static String handlerDesensitization(DesensitizationAnnotation sensitiveInfo, String valueStr){
+    public static String handlerDesensitization(DesensitizationParam sensitiveInfo, String valueStr){
         if(sensitiveInfo == null){
             return valueStr;
         }
