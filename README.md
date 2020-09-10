@@ -11,7 +11,7 @@
  <dependency>
    <groupId>com.github.doobo</groupId>
    <artifactId>spring-sensitive</artifactId>
-   <version>1.0</version>
+   <version>1.1</version>
  </dependency>
 ```
 
