@@ -19,7 +19,7 @@ public class UserDesensitization {
 
 	String address2 = "湖南省";
 
-	String bankCard = "6222600000";
+	String bankCard = "622260000027736298837";
 	
 	Integer id;
 }

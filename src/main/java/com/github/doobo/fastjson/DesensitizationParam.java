@@ -1,15 +1,15 @@
 package com.github.doobo.fastjson;
 
+import com.github.doobo.config.HandleType;
 import com.github.doobo.config.SensitiveType;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * @author doobo
  */
+@Inherited
+@Documented
 @Target({ElementType.FIELD , ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DesensitizationParam {

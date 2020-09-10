@@ -2,10 +2,9 @@ package com.github.doobo.fastjson;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
+import com.github.doobo.config.HandleType;
 import com.github.doobo.config.SensitiveInfoUtils;
-import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.Option;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -19,12 +18,12 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.github.doobo.config.SensitiveInfoUtils.CONF;
+
 @Slf4j
 @Component
 @Aspect
 public class DesensitizationAop {
-
-    private final static Configuration CONF = Configuration.builder().options(Option.AS_PATH_LIST,Option.DEFAULT_PATH_LEAF_TO_NULL).build();
 
     @AfterReturning(value = "@annotation(com.github.doobo.fastjson.DesensitizationParams)", returning = "returnValue")
     public Object before(JoinPoint joinPoint, Object returnValue) throws Throwable {

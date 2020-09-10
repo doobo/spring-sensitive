@@ -1,9 +1,12 @@
 package com.github.doobo;
 
+import com.alibaba.fastjson.JSON;
 import com.github.doobo.config.SensitiveType;
 import com.github.doobo.fastjson.DesensitizationParam;
 import com.github.doobo.fastjson.DesensitizationParams;
-import com.github.doobo.fastjson.HandleType;
+import com.github.doobo.config.HandleType;
+import com.github.doobo.undo.HyposensitizationParam;
+import com.github.doobo.undo.HyposensitizationParams;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +30,21 @@ public class IndexController {
         return Arrays.asList(new UserDesensitization(), new UserDesensitization());
     }
 
+    /**
+     * 数据回填,不给argName默认取第一个参数
+     * @param pt1
+     * @param pt2
+     */
+    @HyposensitizationParams({
+            @HyposensitizationParam(type = "card", fields = "bankCard"),
+            @HyposensitizationParam(argName = "pt1", type = "phone", fields = {"idCard","phone"}),
+            @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..address", "$.bankCard"}, mode = HandleType.RGE_EXP)
+    })
+    @GetMapping("undo")
+    public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2){
+        return JSON.toJSONString(Arrays.asList(pt1, pt2));
+    }
+    
     /**
      * 基于jackson的数据脱敏
      * @return

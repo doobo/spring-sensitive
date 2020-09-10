@@ -1,5 +1,7 @@
 package com.github.doobo.config;
 
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.Option;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -8,6 +10,9 @@ import org.apache.commons.lang3.StringUtils;
  * @author qpc
  */
 public class SensitiveInfoUtils {
+
+	public final static Configuration CONF = Configuration.builder().options(Option.AS_PATH_LIST,Option.DEFAULT_PATH_LEAF_TO_NULL).build();
+
 
 	/**
 	 * [中文姓名] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>

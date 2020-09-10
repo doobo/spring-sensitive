@@ -1,4 +1,4 @@
-package com.github.doobo.fastjson;
+package com.github.doobo.config;
 
 /**
  * fastJson处理类型

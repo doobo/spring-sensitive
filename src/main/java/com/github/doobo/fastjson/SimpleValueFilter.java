@@ -1,6 +1,7 @@
 package com.github.doobo.fastjson;
 
 import com.alibaba.fastjson.serializer.ValueFilter;
+import com.github.doobo.config.HandleType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

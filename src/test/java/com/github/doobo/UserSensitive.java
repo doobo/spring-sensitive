@@ -29,7 +29,7 @@ public class UserSensitive {
 	String address2 = "湖南省";
 
 	@SensitiveInfo(value = SensitiveType.BANK_CARD)
-	String bankCard = "6222600000";
+	String bankCard = "622260000027736298837";
 	
 	@SensitiveInfo(value = SensitiveType.CHINESE_NAME)
 	Integer id;

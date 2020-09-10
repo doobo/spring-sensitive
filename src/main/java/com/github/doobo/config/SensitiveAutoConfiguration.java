@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * 基本配置类
  */
 @Configuration
-@ComponentScans({@ComponentScan("com.github.doobo.fastjson")})
+@ComponentScans({@ComponentScan("com.github.doobo.fastjson"), @ComponentScan("com.github.doobo.undo")})
 public class SensitiveAutoConfiguration {
 }

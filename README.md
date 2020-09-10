@@ -4,7 +4,8 @@
 
 > 基于springboot的数据脱敏，实现了"模型类"和"AOP注解"两种方法,选择其中一种即可
 * 选择任意一种即可,若同时使用，先执行controller层的脱敏，再执行模型类里面的脱敏(返回视图默认Jackson)
-* 基于AOP实现的，也可用于其它spring方法上
+* 基于AOP实现的方法，也可用于其它spring方法上，如无效，记得引入spring的aop包
+* 脱敏了的数据,前端传回来后，可进行数据回填，参考下面的"数据回写"部分，基于fastJson实现
 ## 如何使用
 ```
  <dependency>
@@ -81,5 +82,53 @@ public class ApplicationTests {
 }
 ```
 
+## 数据回写
+有些数据脱敏给前端后,传回给后台时,需要回填到入参里面去,如一些用户ID,手机号等信息
+```
+/**
+ * 数据回填,不给argName默认取第一个参数
+ * @param pt1
+ * @param pt2
+ */
+@HyposensitizationParams({
+        @HyposensitizationParam(type = "card", fields = "bankCard"),
+        @HyposensitizationParam(argName = "pt1", type = "phone", fields = {"idCard","phone"}),
+        @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..address", "$.bankCard"}, mode = HandleType.RGE_EXP)
+})
+@GetMapping("undo")
+public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2){
+    return JSON.toJSONString(Arrays.asList(pt1, pt2));
+}
+
+import com.github.doobo.undo.UndoObserver;
+import com.github.doobo.undo.UndoVO;
+import org.springframework.stereotype.Component;
+
+@Component
+public class PtoUndoObserver extends UndoObserver {
+
+    /**
+     * 继承观察者,可填充到方法的入参里面
+     * @param vo
+     */
+    @Override
+    public boolean undoValue(UndoVO vo) {
+        if(vo.getType().equals("card")){
+            return vo.undo("...1");
+        }
+        if(vo.getType().equals("phone")){
+            return vo.undo("......2");
+        }
+        if(vo.getType().equals("reg")){
+            return vo.undo(".........3");
+        }
+        return false;
+    }
+}
+```
+
 ## 脱敏结果
 ![脱敏结果](https://i.loli.net/2020/09/04/W2sUPFdeSBXpm87.png)
+
+## 数据回写结果
+![数据回写](https://i.loli.net/2020/09/10/DOfTpeR917X8YQ4.png)
