@@ -20,7 +20,7 @@ public class UndoObserved extends Observable {
     
     private static boolean IS_OBSERVE;
 
-    @Autowired(required = false)
+    /*观察者列表*/
     private List<Observer> observerList;
     
     @Resource
@@ -66,5 +66,10 @@ public class UndoObserved extends Observable {
      */
     public List<Observer> getObserverList() {
         return observerList;
+    }
+
+    @Autowired(required = false)
+    public void setObserverList(List<Observer> observerList) {
+        this.observerList = observerList;
     }
 }
