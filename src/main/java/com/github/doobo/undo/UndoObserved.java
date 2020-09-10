@@ -60,4 +60,11 @@ public class UndoObserved extends Observable {
     public static boolean isObserver(){
         return IS_OBSERVE;
     }
+
+    /**
+     * 获取所有注册的观察者
+     */
+    public List<Observer> getObserverList() {
+        return observerList;
+    }
 }
