@@ -13,15 +13,17 @@ public class PtoUndoObserver extends UndoObserver {
      */
     @Override
     public boolean undoValue(UndoVO vo) {
-        if(vo.getType().equals("card")){
-            return vo.undo("...1");
+        synchronized (this) {
+            if (vo.getType().equals("card")) {
+                return vo.undo("...1");
+            }
+            if (vo.getType().equals("phone")) {
+                return vo.undo("......2");
+            }
+            if (vo.getType().equals("reg")) {
+                return vo.undo(".........3");
+            }
+            return false;
         }
-        if(vo.getType().equals("phone")){
-            return vo.undo("......2");
-        }
-        if(vo.getType().equals("reg")){
-            return vo.undo(".........3");
-        }
-        return false;
     }
 }

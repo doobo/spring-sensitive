@@ -42,7 +42,7 @@ public class UndoObserved extends Observable {
      * 广播信息
      * @param vo
      */
-    public void sendResult(UndoVO vo){
+    public synchronized void sendResult(UndoVO vo){
         this.setChanged();
         this.notifyObservers(vo);
     }
