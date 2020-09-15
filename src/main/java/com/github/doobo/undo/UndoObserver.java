@@ -21,5 +21,5 @@ public abstract class UndoObserver implements Observer {
      * 填充值
      * @param vo
      */
-    public abstract boolean undoValue(UndoVO vo);
+    public abstract void undoValue(UndoVO vo);
 }

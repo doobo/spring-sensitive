@@ -1,0 +1,4 @@
+sensitive:
+  enableFastFilter: true
+  enableJackFilter: true
+  enableUndoFilter: true

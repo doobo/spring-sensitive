@@ -3,6 +3,7 @@ package com.github.doobo.undo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
 import com.github.doobo.config.HandleType;
+import com.github.doobo.config.SensitiveProperties;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -41,6 +42,9 @@ public class HyposensitizationAop {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable{
         //如果未定义填充监听,不执行相关操作
         if(!UndoObserved.isObserver()){
+            return joinPoint.proceed();
+        }
+        if(!SensitiveProperties.getInstance().isEnableUndoFilter()){
             return joinPoint.proceed();
         }
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();

@@ -12,18 +12,17 @@ public class PtoUndoObserver extends UndoObserver {
      * @param vo
      */
     @Override
-    public boolean undoValue(UndoVO vo) {
+    public void undoValue(UndoVO vo) {
         synchronized (this) {
             if (vo.getType().equals("card")) {
-                return vo.undo("...1");
+                vo.undo("...1");
             }
             if (vo.getType().equals("phone")) {
-                return vo.undo("......2");
+                vo.undo("......2");
             }
             if (vo.getType().equals("reg")) {
-                return vo.undo(".........3");
+                vo.undo(".........3");
             }
-            return false;
         }
     }
 }

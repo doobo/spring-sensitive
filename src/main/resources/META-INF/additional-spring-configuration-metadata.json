@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "name": "sensitive",
+      "type": "com.github.doobo.config.SensitiveProperties",
+      "sourceType": "com.github.doobo.config.SensitiveProperties"
+    }
+  ],
+  "hints": [
+  ],
+  "properties": [
+    {
+      "name": "sensitive.enableFastFilter",
+      "type": "java.lang.Boolean",
+      "description": "Description for sensitive.enableFastFilter."
+    },
+    {
+      "name": "sensitive.enableJackFilter",
+      "type": "java.lang.Boolean",
+      "description": "Description for sensitive.enableJackFilter."
+    },
+    {
+      "name": "sensitive.enableUndoFilter",
+      "type": "java.lang.Boolean",
+      "description": "Description for sensitive.enableUndoFilter."
+    }
+  ]
+}

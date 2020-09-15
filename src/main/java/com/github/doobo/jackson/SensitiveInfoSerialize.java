@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.github.doobo.config.SensitiveInfoUtils;
+import com.github.doobo.config.SensitiveProperties;
 import com.github.doobo.config.SensitiveType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,9 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 	@Override
 	public void serialize(final String s, final JsonGenerator jsonGenerator,
 						  final SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+		if(!SensitiveProperties.getInstance().isEnableJackFilter()){
+			jsonGenerator.writeString(s);
+		}
 		try {
 			//有正则优先使用正则
 			if(StringUtils.isNotBlank(sensitiveInfo.regExp())){
