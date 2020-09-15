@@ -16,15 +16,10 @@ import java.util.stream.Collectors;
 @Component
 public class UndoObserved extends Observable {
     
-    private static UndoObserved INSTANCE;
-    
     private static boolean IS_OBSERVE;
 
     /*观察者列表*/
     private List<Observer> observerList;
-    
-    @Resource
-    private UndoObserved observed;
 
     @PostConstruct
     public void observerRegister() {
@@ -35,7 +30,6 @@ public class UndoObserved extends Observable {
                 IS_OBSERVE = true;
             }
         }
-        INSTANCE = observed;
     }
 
     /**
@@ -45,13 +39,6 @@ public class UndoObserved extends Observable {
     public synchronized void sendResult(UndoVO vo){
         this.setChanged();
         this.notifyObservers(vo);
-    }
-
-    /**
-     * 获取被观察者实例
-     */
-    public static UndoObserved getInstance(){
-        return INSTANCE;
     }
 
     /**

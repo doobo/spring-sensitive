@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONPath;
 import com.github.doobo.config.HandleType;
 import com.github.doobo.config.SensitiveInfoUtils;
 import com.github.doobo.config.SensitiveProperties;
+import com.github.doobo.config.SensitivePropertiesUtils;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +29,7 @@ public class DesensitizationAop {
 
     @AfterReturning(value = "@annotation(com.github.doobo.fastjson.DesensitizationParams)", returning = "returnValue")
     public Object before(JoinPoint joinPoint, Object returnValue) throws Throwable {
-        if(!SensitiveProperties.getInstance().isEnableFastFilter()){
+        if(!SensitivePropertiesUtils.getInstance().isEnableFastFilter()){
             return returnValue;
         }
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();

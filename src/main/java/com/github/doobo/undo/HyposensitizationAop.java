@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
 import com.github.doobo.config.HandleType;
 import com.github.doobo.config.SensitiveProperties;
+import com.github.doobo.config.SensitivePropertiesUtils;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -44,7 +45,7 @@ public class HyposensitizationAop {
         if(!UndoObserved.isObserver()){
             return joinPoint.proceed();
         }
-        if(!SensitiveProperties.getInstance().isEnableUndoFilter()){
+        if(!SensitivePropertiesUtils.getInstance().isEnableUndoFilter()){
             return joinPoint.proceed();
         }
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -68,14 +69,14 @@ public class HyposensitizationAop {
                 if(vo == null){
                     continue;
                 }
-                UndoObserved.getInstance().sendResult(vo);
+                UndoObservedUtils.getInstance().sendResult(vo);
                 continue;
             }
             UndoVO vo = convertVO(item, queryArg(item.argName(), args, parameterNames));
             if(vo == null){
                 continue;
             }
-            UndoObserved.getInstance().sendResult(vo);
+            UndoObservedUtils.getInstance().sendResult(vo);
         }
         return joinPoint.proceed();
     }
