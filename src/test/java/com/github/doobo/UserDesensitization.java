@@ -21,5 +21,5 @@ public class UserDesensitization {
 
 	String bankCard = "622260000027736298837";
 	
-	Integer id;
+	Integer id = 123456;
 }

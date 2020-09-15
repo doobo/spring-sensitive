@@ -1,9 +1,7 @@
 package com.github.doobo.undo;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONPath;
 import com.github.doobo.config.HandleType;
-import com.github.doobo.config.SensitiveProperties;
 import com.github.doobo.config.SensitivePropertiesUtils;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
@@ -113,6 +111,21 @@ public class HyposensitizationAop {
     }
 
     /**
+     * 判断object是否为基本类型
+     * @param cls
+     */
+    public static boolean isBaseType(Class<?> cls) {
+        return cls.equals(int.class) ||
+                cls.equals(byte.class) ||
+                cls.equals(long.class) ||
+                cls.equals(double.class) ||
+                cls.equals(float.class) ||
+                cls.equals(char.class) ||
+                cls.equals(short.class) ||
+                cls.equals(boolean.class);
+    }
+
+    /**
      * UndoVO对象转换
      * @param param
      * @param obj
@@ -124,18 +137,15 @@ public class HyposensitizationAop {
         if(obj == null){
             return null;
         }
-        if(isWrapClass(obj.getClass())){
-            return null;
-        }
-        if(obj instanceof String){
-            return null;
-        }
         UndoVO vo = new UndoVO();
         vo.setArgName(param.argName())
                 .setType(param.type())
                 .setFields(param.fields())
                 .setMode(param.mode())
                 .setObj(obj);
+        if(param.fields().length == 1 && param.fields()[0].isEmpty()){
+            return vo;
+        }
         String[] fs = param.fields();
         if(param.mode() == HandleType.DEFAULT){
             fs = Arrays.stream(fs).map(m -> String.format("$..%s", m)).toArray(String[]::new);

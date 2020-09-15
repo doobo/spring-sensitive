@@ -24,7 +24,7 @@ public @interface HyposensitizationParam {
     String type() default "";
     
     /*反脱敏字段,可正则,默认字段名匹配*/
-    String[] fields();
+    String[] fields() default "";
 
     /*处理方式,默认字段相等匹配*/
     HandleType mode() default HandleType.DEFAULT;

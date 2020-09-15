@@ -2,10 +2,7 @@ package com.github.doobo.fastjson;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
-import com.github.doobo.config.HandleType;
-import com.github.doobo.config.SensitiveInfoUtils;
-import com.github.doobo.config.SensitiveProperties;
-import com.github.doobo.config.SensitivePropertiesUtils;
+import com.github.doobo.config.*;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.github.doobo.config.SensitiveInfoUtils.CONF;
+import static com.github.doobo.undo.HyposensitizationAop.isBaseType;
 
 @Slf4j
 @Component
@@ -158,6 +156,10 @@ public class DesensitizationAop {
                         if(value instanceof String){
                             JSONPath.set(t, p, handlerDesensitization(item, (String) value));
                         }
+                        //如果是NULL匹配,并且是封装类型,设置为空
+                        if(item.type() == SensitiveType.NULL && !isBaseType(value.getClass())){
+                            JSONPath.set(t, p,null);
+                        }
                     }
                 });
             }
@@ -175,6 +177,10 @@ public class DesensitizationAop {
             return valueStr;
         }
         try {
+            //是NULL类型,直接返回null
+            if(sensitiveInfo.type() == SensitiveType.NULL){
+                return null;
+            }
             //有正则优先使用正则
             if(StringUtils.isNotBlank(sensitiveInfo.regExp())){
                 return valueStr.replaceAll(sensitiveInfo.regExp(), sensitiveInfo.regStr());

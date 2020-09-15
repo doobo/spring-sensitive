@@ -45,5 +45,10 @@ public enum SensitiveType {
 	/**
 	 * 自定义正则过滤
 	 */
-	RGE_EXP
+	RGE_EXP,
+	
+	/**
+	 * 空值
+	 */
+	NULL
 }

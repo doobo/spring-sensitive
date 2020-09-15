@@ -2,6 +2,7 @@ package com.github.doobo.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -81,30 +82,36 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 				case SHOPS_CODE: {
 					jsonGenerator.writeString(SensitiveInfoUtils.shopsCode(s));
 					break;
-				} default:{
+				}
+				case NULL: {
+					jsonGenerator.writeString((String) null);
+					break;
+				}
+				default:{
 					jsonGenerator.writeString(s);
 				}
 			}
 		}catch (Exception e){
 			log.error("脱敏数据处理异常", e);
+			jsonGenerator.writeString(s);
 		}
 	}
 
 	@Override
 	public JsonSerializer<?> createContextual(final SerializerProvider serializerProvider,
 											  final BeanProperty beanProperty) throws JsonMappingException {
+		// 为空直接跳过
 		if (beanProperty != null) {
-			// 为空直接跳过
+			SensitiveInfo sensitiveInfo = beanProperty.getAnnotation(SensitiveInfo.class);
+			// 非 String 类直接跳过
 			if (Objects.equals(beanProperty.getType().getRawClass(), String.class)) {
-				// 非 String 类直接跳过
-				SensitiveInfo sensitiveInfo = beanProperty.getAnnotation(SensitiveInfo.class);
-				if (sensitiveInfo == null) {
-					sensitiveInfo = beanProperty.getContextAnnotation(SensitiveInfo.class);
-				}
 				if (sensitiveInfo != null) {
 					// 如果能得到注解,就将注解的 value 传入 SensitiveInfoSerialize
 					return new SensitiveInfoSerialize(sensitiveInfo);
 				}
+			}
+			if(sensitiveInfo != null && sensitiveInfo.value() == SensitiveType.NULL){
+				return new SensitiveInfoObjectSerialize(sensitiveInfo);
 			}
 			return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
 		}

@@ -16,19 +16,20 @@ import java.util.List;
 
 @RestController
 public class IndexController {
-
     /**
      * 基于fastJson的数据脱敏
      */
     @DesensitizationParams({
-        @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
-        @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
-        @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
+            @DesensitizationParam(type = SensitiveType.NULL, fields = {"id","address"}),
+            @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
+            @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
+            @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
     })
     @GetMapping("fast")
     public List<UserDesensitization> sensitive(){
         return Arrays.asList(new UserDesensitization(), new UserDesensitization());
     }
+
 
     /**
      * 数据回填,不给argName默认取第一个参数
@@ -37,12 +38,13 @@ public class IndexController {
      */
     @HyposensitizationParams({
             @HyposensitizationParam(type = "card", fields = "bankCard"),
+            @HyposensitizationParam(argName = "a", type = "string"),
             @HyposensitizationParam(argName = "pt1", type = "phone", fields = {"idCard","phone"}),
             @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..address", "$.bankCard"}, mode = HandleType.RGE_EXP)
     })
     @GetMapping("undo")
-    public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2){
-        return JSON.toJSONString(Arrays.asList(pt1, pt2));
+    public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2, String a){
+        return JSON.toJSONString(Arrays.asList(pt1, pt2, a));
     }
     
     /**

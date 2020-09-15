@@ -23,6 +23,9 @@ public class PtoUndoObserver extends UndoObserver {
             if (vo.getType().equals("reg")) {
                 vo.undo(".........3");
             }
+            if(vo.getType().equals("string")){
+                vo.undo(4);
+            }
         }
     }
 }

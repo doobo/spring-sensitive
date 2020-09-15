@@ -1,8 +1,8 @@
 package com.github.doobo;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONPatch;
 import com.alibaba.fastjson.JSONPath;
+import com.github.doobo.undo.HyposensitizationAop;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -27,5 +27,13 @@ public class CommonTests {
         System.out.println(path.getPath());
         Map<String, Object> paths = JSONPath.paths(map);
         System.out.println(JSON.toJSONString(paths));
+    }
+    
+    @Test
+    public void testClass(){
+        System.out.println(HyposensitizationAop.isBaseType(String.class));
+        System.out.println(HyposensitizationAop.isBaseType(HyposensitizationAop.class));
+        System.out.println(HyposensitizationAop.isBaseType(Integer.class));
+        System.out.println(HyposensitizationAop.isBaseType(int.class));
     }
 }

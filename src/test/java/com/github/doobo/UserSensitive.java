@@ -25,12 +25,12 @@ public class UserSensitive {
 	@SensitiveInfo(value = SensitiveType.ADDRESS)
 	String address = "湖南省长沙市高新区岳麓大道芯城科技园";
 
-	@SensitiveInfo(value = SensitiveType.ADDRESS)
+	@SensitiveInfo(value = SensitiveType.NULL)
 	String address2 = "湖南省";
 
 	@SensitiveInfo(value = SensitiveType.BANK_CARD)
 	String bankCard = "622260000027736298837";
 	
-	@SensitiveInfo(value = SensitiveType.CHINESE_NAME)
-	Integer id;
+	@SensitiveInfo(value = SensitiveType.NULL)
+	Integer id = 654321;
 }
