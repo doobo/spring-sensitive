@@ -97,33 +97,7 @@ public class HyposensitizationAop {
         return null;
     }
 
-    /**
-     * 判断是基本类还是封装类
-     * .isPrimitive()是用来判断是否是基本类型的：void.isPrimitive() //true;
-     * @param clz
-     */
-    public static boolean isWrapClass(Class clz) {
-        try {
-            return ((Class) clz.getField("TYPE").get(null)).isPrimitive();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * 判断object是否为基本类型
-     * @param cls
-     */
-    public static boolean isBaseType(Class<?> cls) {
-        return cls.equals(int.class) ||
-                cls.equals(byte.class) ||
-                cls.equals(long.class) ||
-                cls.equals(double.class) ||
-                cls.equals(float.class) ||
-                cls.equals(char.class) ||
-                cls.equals(short.class) ||
-                cls.equals(boolean.class);
-    }
+   
 
     /**
      * UndoVO对象转换

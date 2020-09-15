@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.doobo.config.ClassUtils.isBaseType;
+
 public class CommonTests {
     
     @Test
@@ -31,9 +33,9 @@ public class CommonTests {
     
     @Test
     public void testClass(){
-        System.out.println(HyposensitizationAop.isBaseType(String.class));
-        System.out.println(HyposensitizationAop.isBaseType(HyposensitizationAop.class));
-        System.out.println(HyposensitizationAop.isBaseType(Integer.class));
-        System.out.println(HyposensitizationAop.isBaseType(int.class));
+        System.out.println(isBaseType(String.class));
+        System.out.println(isBaseType(HyposensitizationAop.class));
+        System.out.println(isBaseType(Integer.class));
+        System.out.println(isBaseType(int.class));
     }
 }

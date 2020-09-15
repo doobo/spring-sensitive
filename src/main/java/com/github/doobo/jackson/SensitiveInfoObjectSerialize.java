@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.github.doobo.undo.HyposensitizationAop.isBaseType;
+import static com.github.doobo.config.ClassUtils.isBaseType;
+
 
 /**
  * jackson的脱敏实现

@@ -21,9 +21,10 @@
  * 基于fastJson的数据脱敏
  */
 @DesensitizationParams({
-    @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
-    @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
-    @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
+        @DesensitizationParam(type = SensitiveType.NULL, fields = {"id","address"}),
+        @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
+        @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
+        @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)
 })
 @GetMapping("fast")
 public List<UserDesensitization> sensitive(){
@@ -54,11 +55,14 @@ public class UserSensitive {
 	@SensitiveInfo(value = SensitiveType.ADDRESS)
 	String address = "湖南省长沙市高新区岳麓大道芯城科技园";
 
-	@SensitiveInfo(value = SensitiveType.ADDRESS)
+	@SensitiveInfo(value = SensitiveType.NULL)
 	String address2 = "湖南省";
 
 	@SensitiveInfo(value = SensitiveType.BANK_CARD)
-	String bankCard = "6222600000";
+	String bankCard = "622260000027736298837";
+	
+	@SensitiveInfo(value = SensitiveType.NULL)
+	Integer id = 654321;
 }
 ```
 
@@ -86,20 +90,23 @@ public class ApplicationTests {
 有些数据脱敏给前端后,传回给后台时,需要回填到入参里面去,如一些用户ID,手机号等信息
 ```
 /**
+ * IndexController.java
  * 数据回填,不给argName默认取第一个参数
  * @param pt1
  * @param pt2
  */
 @HyposensitizationParams({
         @HyposensitizationParam(type = "card", fields = "bankCard"),
+        @HyposensitizationParam(argName = "a", type = "string"),
         @HyposensitizationParam(argName = "pt1", type = "phone", fields = {"idCard","phone"}),
         @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..address", "$.bankCard"}, mode = HandleType.RGE_EXP)
 })
 @GetMapping("undo")
-public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2){
-    return JSON.toJSONString(Arrays.asList(pt1, pt2));
+public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2, String a){
+    return JSON.toJSONString(Arrays.asList(pt1, pt2, a));
 }
 
+//PtoUndoObserver.java
 import com.github.doobo.undo.UndoObserver;
 import com.github.doobo.undo.UndoVO;
 import org.springframework.stereotype.Component;
@@ -112,17 +119,21 @@ public class PtoUndoObserver extends UndoObserver {
      * @param vo
      */
     @Override
-    public boolean undoValue(UndoVO vo) {
-        if(vo.getType().equals("card")){
-            return vo.undo("...1");
+    public void undoValue(UndoVO vo) {
+        synchronized (this) {
+            if (vo.getType().equals("card")) {
+                vo.undo("...1");
+            }
+            if (vo.getType().equals("phone")) {
+                vo.undo("......2");
+            }
+            if (vo.getType().equals("reg")) {
+                vo.undo(".........3");
+            }
+            if(vo.getType().equals("string")){
+                vo.undo(4);
+            }
         }
-        if(vo.getType().equals("phone")){
-            return vo.undo("......2");
-        }
-        if(vo.getType().equals("reg")){
-            return vo.undo(".........3");
-        }
-        return false;
     }
 }
 ```

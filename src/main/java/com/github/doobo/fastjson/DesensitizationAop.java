@@ -17,8 +17,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.github.doobo.config.ClassUtils.isBaseType;
 import static com.github.doobo.config.SensitiveInfoUtils.CONF;
-import static com.github.doobo.undo.HyposensitizationAop.isBaseType;
 
 @Slf4j
 @Component

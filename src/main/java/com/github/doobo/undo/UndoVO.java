@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.github.doobo.undo.HyposensitizationAop.isWrapClass;
+import static com.github.doobo.config.ClassUtils.*;
 
 /**
  * 数据反脱敏对象
@@ -73,7 +72,7 @@ public class UndoVO {
             return false;
         }
         //如果是基本数据类型,没有引用地址,不支持值替换,需使用封装对象:Long...
-        if (HyposensitizationAop.isBaseType(obj.getClass())) {
+        if (isBaseType(obj.getClass())) {
             return false;
         }
         //字符串常量,不支持替换,请使用封装对象
@@ -90,42 +89,6 @@ public class UndoVO {
             }
         }
         return true;
-    }
-
-    /**
-     * 设置字符串值
-     *
-     * @param value
-     */
-    public static void setStringValue(Object str, Object value) {
-        char[] chars = String.valueOf(value).toCharArray();
-        try {
-            //获取string 类中的value字段
-            Field valueField = String.class.getDeclaredField("value");
-            //设置private字段可以被修改
-            valueField.setAccessible(true);
-            //把chars设置到value字段的内容
-            valueField.set(str, chars);
-        } catch (Exception e) {
-            log.error("setStringValueError", e);
-        }
-    }
-
-
-    /**
-     * 基本类型值切换
-     * @param i
-     * @param j
-     * @param <T>
-     */
-    public static <T> void swapBaseType(T i, Object j) {
-        try {
-            Field field = i.getClass().getDeclaredField("value");
-            field.setAccessible(true);
-            field.set(i, j);
-        } catch (Exception e) {
-            log.error("swapBaseTypeError", e);
-        }
     }
 
 }
