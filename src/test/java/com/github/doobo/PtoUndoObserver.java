@@ -24,7 +24,10 @@ public class PtoUndoObserver extends UndoObserver {
                 vo.undo(".........3");
             }
             if(vo.getType().equals("string")){
-                vo.undo(4);
+                vo.undo("............4");
+            }
+            if(vo.getType().equals("obj")){
+                vo.undo(new SingleObj().setAuthor("............5"));
             }
         }
     }

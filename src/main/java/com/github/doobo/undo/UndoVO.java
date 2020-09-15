@@ -5,6 +5,7 @@ import com.github.doobo.config.HandleType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class UndoVO {
                 swapBaseType(obj, value);
                 return true;
             }
-            setObj(value);
+            BeanUtils.copyProperties(value, obj);
             return true;
         }
         if (regFields == null || regFields.isEmpty()) {

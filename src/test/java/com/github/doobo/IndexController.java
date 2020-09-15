@@ -39,12 +39,14 @@ public class IndexController {
     @HyposensitizationParams({
             @HyposensitizationParam(type = "card", fields = "bankCard"),
             @HyposensitizationParam(argName = "a", type = "string"),
+            @HyposensitizationParam(argName = "pt0", type = "obj"),
             @HyposensitizationParam(argName = "pt1", type = "phone", fields = {"idCard","phone"}),
             @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..address", "$.bankCard"}, mode = HandleType.RGE_EXP)
     })
     @GetMapping("undo")
-    public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2, String a){
-        return JSON.toJSONString(Arrays.asList(pt1, pt2, a));
+    public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2
+            , String a, SingleObj pt0){
+        return JSON.toJSONString(Arrays.asList(pt1, pt2, a, pt0));
     }
     
     /**
