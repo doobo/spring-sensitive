@@ -127,6 +127,14 @@ public class PtoUndoObserver extends UndoObserver {
 }
 ```
 
+## 全局配置是否启动相关功能
+```yaml
+sensitive:
+  enableFastFilter: true
+  enableJackFilter: true
+  enableUndoFilter: true
+```
+
 ## 脱敏结果
 ![脱敏结果](https://i.loli.net/2020/09/04/W2sUPFdeSBXpm87.png)
 
