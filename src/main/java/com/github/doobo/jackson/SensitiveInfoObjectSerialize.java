@@ -56,6 +56,9 @@ public class SensitiveInfoObjectSerialize extends JsonSerializer<Object> impleme
 											  final BeanProperty beanProperty) throws JsonMappingException {
 		// 为空直接跳过
 		if (beanProperty != null) {
+			if(!SensitivePropertiesUtils.getInstance().isEnableJackFilter()){
+				return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
+			}
 			// 非 String 类直接跳过
 			if (Objects.equals(beanProperty.getType().getRawClass(), Object.class)) {
 				SensitiveInfo sensitiveInfo = beanProperty.getAnnotation(SensitiveInfo.class);
