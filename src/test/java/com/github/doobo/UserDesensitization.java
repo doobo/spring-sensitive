@@ -23,5 +23,6 @@ public class UserDesensitization {
 
 	String bankCard = "622260000027736298837";
 	
-	Integer id = 123456;
+	//fastJson过滤不支持基本类型int,long等
+	Long id = 123456L;
 }

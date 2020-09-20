@@ -41,7 +41,7 @@ public class IndexController {
             @HyposensitizationParam(argName = "a", type = "string"),
             @HyposensitizationParam(argName = "pt0", type = "obj"),
             @HyposensitizationParam(argName = "pt1", type = "phone", fields = {"idCard","phone"}),
-            @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..address", "$.bankCard"}, mode = HandleType.RGE_EXP)
+            @HyposensitizationParam(argName = "pt2", type = "reg", fields = {"$..id"}, mode = HandleType.RGE_EXP)
     })
     @GetMapping("undo")
     public String Hyposensitization(UserDesensitization pt1, UserSensitive pt2

@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.github.doobo.config.ClassUtils.isBaseType;
+import static com.github.doobo.config.ClassUtils.isWrapClass;
 import static com.github.doobo.config.SensitiveInfoUtils.CONF;
 
 @Slf4j
@@ -153,12 +154,11 @@ public class DesensitizationAop {
                 path.forEach(p->{
                     if(JSONPath.contains(t, p)){
                         Object value = JSONPath.eval(t, p);
-                        if(value instanceof String){
-                            JSONPath.set(t, p, handlerDesensitization(item, (String) value));
-                        }
                         //如果是NULL匹配,并且是封装类型,设置为空
-                        if(item.type() == SensitiveType.NULL && !isBaseType(value.getClass())){
+                        if(item.type() == SensitiveType.NULL){
                             JSONPath.set(t, p,null);
+                        }else if(value instanceof String){
+                            JSONPath.set(t, p, handlerDesensitization(item, (String) value));
                         }
                     }
                 });

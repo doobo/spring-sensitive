@@ -32,5 +32,5 @@ public class UserSensitive {
 	String bankCard = "622260000027736298837";
 	
 	@SensitiveInfo(value = SensitiveType.NULL)
-	Integer id = 654321;
+	char id = 'c';
 }
