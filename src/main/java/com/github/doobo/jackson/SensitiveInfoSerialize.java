@@ -2,14 +2,12 @@ package com.github.doobo.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.github.doobo.config.SensitiveInfoUtils;
-import com.github.doobo.config.SensitiveProperties;
 import com.github.doobo.config.SensitivePropertiesUtils;
 import com.github.doobo.config.SensitiveType;
 import lombok.extern.slf4j.Slf4j;
