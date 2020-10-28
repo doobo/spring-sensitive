@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
 import com.github.doobo.config.*;
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -145,7 +146,13 @@ public class DesensitizationAop {
                 fs = Arrays.stream(fs).map(m -> String.format("$..%s", m)).toArray(String[]::new);
             }
             for(String key : fs){
-                List<String> path = JsonPath.using(CONF).parse(JSON.toJSONString(t)).read(key);
+                List<String> path;
+                try {
+                    path = JsonPath.using(CONF).parse(JSON.toJSONString(t)).read(key);
+                }catch (PathNotFoundException err){
+                    log.warn("PathNotFoundExceptionError,{}", key);
+                    continue;
+                }
                 if(path == null || path.isEmpty()){
                     continue;
                 }

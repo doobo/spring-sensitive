@@ -62,7 +62,7 @@ public class UndoVO {
                 return true;
             }
             //基本类型值替换
-            if(isWrapClass(obj.getClass()) || obj instanceof String){
+            if(isWrapClass(obj.getClass())){
                 swapBaseType(obj, value);
                 return true;
             }
