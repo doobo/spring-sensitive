@@ -14,7 +14,17 @@ public abstract class UndoObserver implements Observer {
         if(!(o instanceof UndoObserved) || !(arg instanceof UndoVO)){
             return;
         }
-        undoValue((UndoVO) arg);
+        UndoVO vo = (UndoVO) arg;
+        if(matching(vo)){
+            undoValue(vo);
+        }
+    }
+
+    /**
+     * 返回true才执行undoValue
+     */
+    public boolean matching(UndoVO vo){
+        return Boolean.TRUE;
     }
 
     /**

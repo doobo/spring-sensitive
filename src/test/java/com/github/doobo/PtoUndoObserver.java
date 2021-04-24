@@ -8,27 +8,33 @@ import org.springframework.stereotype.Component;
 public class PtoUndoObserver extends UndoObserver {
 
     /**
+     * 返回True才匹配
+     */
+    @Override
+    public boolean matching(UndoVO vo) {
+        return "card".equals(vo.getType()) || "reg".equals(vo.getType());
+    }
+
+    /**
+     * 如果是基本类型的入参，并且参数为空，无内存地址，不替换内容
      * 继承观察者,可填充到方法的入参里面
-     * @param vo
      */
     @Override
     public void undoValue(UndoVO vo) {
-        synchronized (this) {
-            if (vo.getType().equals("card")) {
-                vo.undo("...1");
-            }
-            if (vo.getType().equals("phone")) {
-                vo.undo("......2");
-            }
-            if (vo.getType().equals("reg")) {
-                vo.undo('a');
-            }
-            if(vo.getType().equals("string")){
-                vo.undo("............4");
-            }
-            if(vo.getType().equals("obj")){
-                vo.undo(new SingleObj().setAuthor("............5"));
-            }
+        if (vo.getType().equals("card")) {
+            vo.undo("...1");
+        }
+        if (vo.getType().equals("phone")) {
+            vo.undo("......2");
+        }
+        if (vo.getType().equals("reg")) {
+            vo.undo('.');
+        }
+        if(vo.getType().equals("string")){
+            vo.undo("............4");
+        }
+        if(vo.getType().equals("obj")){
+            vo.undo(new SingleObj().setAuthor("............5"));
         }
     }
 }
