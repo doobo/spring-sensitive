@@ -24,25 +24,26 @@ public @interface SensitiveInfo {
 
 	/**
 	 * 身份证和手机号后面保留几位
-	 * @return
 	 */
 	int idBack() default 3;
 
 	/**
 	 * 地址默认保留前几位
-	 * @return
 	 */
 	int addSize() default 8;
 
 	/**
 	 * 自定义正则匹配规则
-	 * @return
 	 */
 	String regExp() default "";
 
 	/**
 	 * 正则替换字符
-	 * @return
 	 */
 	String regStr() default "*";
+
+	/**
+	 * 自定义处理标识
+	 */
+	String tag() default "self";
 }

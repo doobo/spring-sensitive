@@ -20,7 +20,8 @@ public class IndexController {
      * 基于fastJson的数据脱敏
      */
     @DesensitizationParams({
-            @DesensitizationParam(type = SensitiveType.NULL, fields = {"id","address"}),
+            @DesensitizationParam(type = SensitiveType.NULL, fields = {"id"}),
+            @DesensitizationParam(type = SensitiveType.SELF, fields = {"address"}),
             @DesensitizationParam(type = SensitiveType.MOBILE_PHONE, fields = {"phone", "idCard"}),
             @DesensitizationParam(type = SensitiveType.BANK_CARD, fields = "$..bankCard", mode = HandleType.RGE_EXP),
             @DesensitizationParam(regExp = "(?<=\\w{2})\\w(?=\\w{1})", fields = "$[0].idCard2", mode = HandleType.RGE_EXP)

@@ -86,6 +86,10 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 					jsonGenerator.writeString((String) null);
 					break;
 				}
+				case SELF: {
+					jsonGenerator.writeString(getSensitiveService().selfJacksonHandler(s, sensitiveInfo));
+					break;
+				}
 				default:{
 					jsonGenerator.writeString(s);
 				}

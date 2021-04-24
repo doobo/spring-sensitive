@@ -46,5 +46,9 @@ public @interface DesensitizationParam {
      * 正则替换字符
      */
     String regStr() default "*";
-    
+
+    /**
+     * 自定义处理标识
+     */
+    String tag() default "self";
 }

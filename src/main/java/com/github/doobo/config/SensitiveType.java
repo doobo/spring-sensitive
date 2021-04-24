@@ -50,5 +50,9 @@ public enum SensitiveType {
 	/**
 	 * 空值
 	 */
-	NULL
+	NULL,
+	/**
+	 * 自定义处理
+	 */
+	SELF
 }

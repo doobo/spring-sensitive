@@ -1,5 +1,8 @@
 package com.github.doobo.service;
 
+import com.github.doobo.fastjson.DesensitizationParam;
+import com.github.doobo.jackson.SensitiveInfo;
+
 /**
  * 脱敏服务
  */
@@ -65,4 +68,14 @@ public interface SensitiveService {
      * 【密码】密码的全部字符都用*代替，比如：******
      */
     String password(String password);
+
+    /**
+     * 自定义处理方法-fastJson
+     */
+    String selfFastJsonHandler(String input, DesensitizationParam param);
+
+    /**
+     * 自定义处理方法-jackson
+     */
+    String selfJacksonHandler(String input, SensitiveInfo param);
 }

@@ -216,7 +216,11 @@ public class DesensitizationAop {
                 }
                 case SHOPS_CODE: {
                     return getSensitiveService().shopsCode(valueStr);
-                } default:{
+                }
+                case SELF: {
+                    return getSensitiveService().selfFastJsonHandler(valueStr, sensitiveInfo);
+                }
+                default:{
                     return valueStr;
                 }
             }

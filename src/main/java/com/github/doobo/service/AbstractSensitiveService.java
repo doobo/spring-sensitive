@@ -1,6 +1,8 @@
 package com.github.doobo.service;
 
 import com.github.doobo.config.SensitiveInfoUtils;
+import com.github.doobo.fastjson.DesensitizationParam;
+import com.github.doobo.jackson.SensitiveInfo;
 
 /**
  * 默认脱敏工具抽象类
@@ -65,5 +67,15 @@ public abstract class AbstractSensitiveService implements SensitiveService{
     @Override
     public String password(String password) {
         return SensitiveInfoUtils.password(password);
+    }
+
+    @Override
+    public String selfFastJsonHandler(String input, DesensitizationParam param) {
+        return input;
+    }
+
+    @Override
+    public String selfJacksonHandler(String input, SensitiveInfo param) {
+        return input;
     }
 }

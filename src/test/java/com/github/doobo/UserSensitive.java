@@ -25,7 +25,7 @@ public class UserSensitive {
 	@SensitiveInfo(value = SensitiveType.ADDRESS)
 	String address = "湖南省长沙市高新区岳麓大道芯城科技园";
 
-	@SensitiveInfo(value = SensitiveType.NULL)
+	@SensitiveInfo(value = SensitiveType.SELF, tag = "abc")
 	String address2 = "湖南省";
 
 	@SensitiveInfo(value = SensitiveType.BANK_CARD)
