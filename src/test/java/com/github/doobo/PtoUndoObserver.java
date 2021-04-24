@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class PtoUndoObserver extends UndoObserver {
 
     /**
-     * 返回True才匹配
+     * 返回True才执行undoValue
      */
     @Override
     public boolean matching(UndoVO vo) {
