@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.github.doobo.config.SensitiveInfoUtils;
 import com.github.doobo.config.SensitivePropertiesUtils;
 import com.github.doobo.config.SensitiveType;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static com.github.doobo.config.SensitiveServiceUtils.getSensitiveService;
 
 /**
  * jackson的脱敏实现
@@ -49,36 +50,36 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 			}
 			switch (this.type) {
 				case CHINESE_NAME: {
-					jsonGenerator.writeString(SensitiveInfoUtils.chineseName(s));
+					jsonGenerator.writeString(getSensitiveService().chineseName(s));
 					break;
 				}
 				case ID_CARD:
 				case MOBILE_PHONE: {
-					jsonGenerator.writeString(SensitiveInfoUtils.idCardNum(s, sensitiveInfo.idFront(), sensitiveInfo.idBack()));
+					jsonGenerator.writeString(getSensitiveService().idCardNum(s, sensitiveInfo.idFront(), sensitiveInfo.idBack()));
 					break;
 				}
 				case FIXED_PHONE: {
-					jsonGenerator.writeString(SensitiveInfoUtils.fixedPhone(s));
+					jsonGenerator.writeString(getSensitiveService().fixedPhone(s));
 					break;
 				}
 				case PASSWORD: {
-					jsonGenerator.writeString(SensitiveInfoUtils.password(s));
+					jsonGenerator.writeString(getSensitiveService().password(s));
 					break;
 				}
 				case ADDRESS: {
-					jsonGenerator.writeString(SensitiveInfoUtils.address(s, sensitiveInfo.addSize()));
+					jsonGenerator.writeString(getSensitiveService().address(s, sensitiveInfo.addSize()));
 					break;
 				}
 				case EMAIL: {
-					jsonGenerator.writeString(SensitiveInfoUtils.email(s));
+					jsonGenerator.writeString(getSensitiveService().email(s));
 					break;
 				}
 				case BANK_CARD: {
-					jsonGenerator.writeString(SensitiveInfoUtils.bankCard(s));
+					jsonGenerator.writeString(getSensitiveService().bankCard(s));
 					break;
 				}
 				case SHOPS_CODE: {
-					jsonGenerator.writeString(SensitiveInfoUtils.shopsCode(s));
+					jsonGenerator.writeString(getSensitiveService().shopsCode(s));
 					break;
 				}
 				case NULL: {

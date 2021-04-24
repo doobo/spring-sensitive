@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.github.doobo.config.SensitiveServiceUtils.getSensitiveService;
 import static com.github.doobo.config.SensitiveInfoUtils.CONF;
 
 @Slf4j
@@ -192,29 +193,29 @@ public class DesensitizationAop {
             }
             switch (sensitiveInfo.type()) {
                 case CHINESE_NAME: {
-                    return SensitiveInfoUtils.chineseName(valueStr);
+                    return getSensitiveService().chineseName(valueStr);
                 }
                 case ID_CARD:
                 case MOBILE_PHONE: {
-                    return SensitiveInfoUtils.idCardNum(valueStr, sensitiveInfo.idFront(), sensitiveInfo.idBack());
+                    return getSensitiveService().idCardNum(valueStr, sensitiveInfo.idFront(), sensitiveInfo.idBack());
                 }
                 case FIXED_PHONE: {
-                    return SensitiveInfoUtils.fixedPhone(valueStr);
+                    return getSensitiveService().fixedPhone(valueStr);
                 }
                 case PASSWORD: {
-                    return SensitiveInfoUtils.password(valueStr);
+                    return getSensitiveService().password(valueStr);
                 }
                 case ADDRESS: {
-                    return SensitiveInfoUtils.address(valueStr, sensitiveInfo.addSize());
+                    return getSensitiveService().address(valueStr, sensitiveInfo.addSize());
                 }
                 case EMAIL: {
-                    return SensitiveInfoUtils.email(valueStr);
+                    return getSensitiveService().email(valueStr);
                 }
                 case BANK_CARD: {
-                    return SensitiveInfoUtils.bankCard(valueStr);
+                    return getSensitiveService().bankCard(valueStr);
                 }
                 case SHOPS_CODE: {
-                    return SensitiveInfoUtils.shopsCode(valueStr);
+                    return getSensitiveService().shopsCode(valueStr);
                 } default:{
                     return valueStr;
                 }
