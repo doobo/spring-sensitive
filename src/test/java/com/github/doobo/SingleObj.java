@@ -10,4 +10,5 @@ public class SingleObj {
     private String address="www.5fu8.com";
     
     private String author="doobo";
+    
 }
