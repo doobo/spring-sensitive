@@ -23,6 +23,11 @@
       "name": "sensitive.enableJackFilter",
       "type": "java.lang.Boolean",
       "description": "Description for sensitive.enableJackFilter."
+    },
+    {
+      "name": "sensitive.startConfig",
+      "type": "java.lang.Boolean",
+      "description": "Description for sensitive.startConfig."
     }
   ]
 }

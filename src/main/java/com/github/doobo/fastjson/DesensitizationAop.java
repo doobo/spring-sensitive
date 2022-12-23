@@ -18,17 +18,17 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.github.doobo.config.SensitiveServiceUtils.getSensitiveService;
 import static com.github.doobo.config.SensitiveInfoUtils.CONF;
+import static com.github.doobo.config.SensitiveServiceUtils.getSensitiveService;
 
 @Slf4j
-@Component
 @Aspect
+@Component
 public class DesensitizationAop {
 
     @AfterReturning(value = "@annotation(com.github.doobo.fastjson.DesensitizationParams)", returning = "returnValue")
     public Object before(JoinPoint joinPoint, Object returnValue) throws Throwable {
-        if(!SensitivePropertiesUtils.getInstance().isEnableFastFilter()){
+        if(!SensitivePropertiesConfig.getSensitiveProperties().isEnableFastFilter()){
             return returnValue;
         }
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
@@ -47,7 +47,6 @@ public class DesensitizationAop {
 
     /**
      * 获取所有注解
-     * @param desensitizationController
      */
     private List<DesensitizationParam> getDes(DesensitizationParams desensitizationController){
         if(desensitizationController == null){
@@ -58,7 +57,6 @@ public class DesensitizationAop {
 
     /**
      * 获取正则相关的注解
-     * @param desensitizationController
      */
     @Deprecated
     private List<DesensitizationParam> getRexExpDes(DesensitizationParams desensitizationController){
@@ -75,8 +73,6 @@ public class DesensitizationAop {
 
     /**
      * fastJson正则过滤匹配的值
-     * @param ds
-     * @param returnValue
      */
     @Deprecated
     private void filterRegExpValue(List<DesensitizationParam> ds, Object returnValue){
@@ -130,9 +126,6 @@ public class DesensitizationAop {
 
     /**
      *  JsonPath和FastJson过滤字段
-     * @param ds
-     * @param t
-     * @param <T>
      */
     private <T> T filterValue(List<DesensitizationParam> ds, T t){
         if(ds == null || ds.isEmpty()){
@@ -225,7 +218,7 @@ public class DesensitizationAop {
                 }
             }
         }catch (Exception e){
-            log.error("脱敏数据处理异常", e);
+            log.error("脱敏数据处理异常:", e);
         }
         return valueStr;
     }

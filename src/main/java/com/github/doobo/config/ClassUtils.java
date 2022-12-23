@@ -1,17 +1,14 @@
 package com.github.doobo.config;
 
-import lombok.experimental.PackagePrivate;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 
 @Slf4j
-@PackagePrivate
-public class ClassUtils {
+public abstract class ClassUtils {
 
     /**
      * 设置字符串值
-     * @param value
      */
     public static void setStringValue(Object str, Object value) {
         char[] chars = String.valueOf(value).toCharArray();
@@ -30,9 +27,6 @@ public class ClassUtils {
 
     /**
      * 基本类型值切换
-     * @param i
-     * @param j
-     * @param <T>
      */
     public static <T> void swapBaseType(T i, Object j) {
         try {
@@ -47,7 +41,6 @@ public class ClassUtils {
     /**
      * 判断是基本封装类
      * .isPrimitive()是用来判断是否是基本类型的：void.isPrimitive() //true;
-     * @param clz
      */
     public static boolean isWrapClass(Class<?> clz) {
         try {
@@ -59,7 +52,6 @@ public class ClassUtils {
 
     /**
      * 判断object是否为基本类型
-     * @param cls
      */
     public static boolean isBaseType(Class<?> cls) {
         return cls.equals(int.class) ||

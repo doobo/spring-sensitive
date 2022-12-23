@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.github.doobo.config.SensitivePropertiesUtils;
+import com.github.doobo.config.SensitivePropertiesConfig;
 import com.github.doobo.config.SensitiveType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +39,7 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 	@Override
 	public void serialize(final String s, final JsonGenerator jsonGenerator,
 						  final SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
-		if(!SensitivePropertiesUtils.getInstance().isEnableJackFilter()){
+		if(!SensitivePropertiesConfig.getSensitiveProperties().isEnableJackFilter()){
 			jsonGenerator.writeString(s);
 		}
 		try {
@@ -105,7 +105,7 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 											  final BeanProperty beanProperty) throws JsonMappingException {
 		// 为空直接跳过
 		if (beanProperty != null) {
-			if(!SensitivePropertiesUtils.getInstance().isEnableJackFilter()){
+			if(!SensitivePropertiesConfig.getSensitiveProperties().isEnableJackFilter()){
 				return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
 			}
 			SensitiveInfo sensitiveInfo = beanProperty.getAnnotation(SensitiveInfo.class);

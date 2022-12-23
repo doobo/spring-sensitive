@@ -2,7 +2,7 @@ package com.github.doobo.undo;
 
 import com.alibaba.fastjson.JSON;
 import com.github.doobo.config.HandleType;
-import com.github.doobo.config.SensitivePropertiesUtils;
+import com.github.doobo.config.SensitivePropertiesConfig;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -43,7 +43,7 @@ public class HyposensitizationAop {
         if(!UndoObserved.isObserver()){
             return joinPoint.proceed();
         }
-        if(!SensitivePropertiesUtils.getInstance().isEnableUndoFilter()){
+        if(!SensitivePropertiesConfig.getSensitiveProperties().isEnableUndoFilter()){
             return joinPoint.proceed();
         }
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -81,9 +81,6 @@ public class HyposensitizationAop {
 
     /**
      * 获取入参
-     * @param key
-     * @param args
-     * @param names
      */
     private Object queryArg(String key, Object[] args, String[] names){
         if(key == null || args == null || names == null || args.length != names.length){
@@ -101,8 +98,6 @@ public class HyposensitizationAop {
 
     /**
      * UndoVO对象转换
-     * @param param
-     * @param obj
      */
     private UndoVO convertVO(HyposensitizationParam param, Object obj){
         if(param.fields().length == 0){

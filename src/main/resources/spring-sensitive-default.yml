@@ -1,0 +1,5 @@
+sensitive:
+  default:
+    enableFastFilter: true
+    enableJackFilter: true
+    enableUndoFilter: true

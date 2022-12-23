@@ -1,4 +1,5 @@
 sensitive:
+  startConfig: true
   enableFastFilter: true
   enableJackFilter: true
   enableUndoFilter: true

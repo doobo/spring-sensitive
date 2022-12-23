@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * 脱敏基本工具类
  * @author qpc
  */
-public class SensitiveInfoUtils {
+public abstract class SensitiveInfoUtils {
 
 	public final static Configuration CONF = Configuration.builder().options(Option.AS_PATH_LIST,Option.DEFAULT_PATH_LEAF_TO_NULL).build();
 

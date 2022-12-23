@@ -5,6 +5,8 @@ import com.github.doobo.service.SensitiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * 脱敏服务工具类
  */
@@ -25,8 +27,13 @@ public class SensitiveServiceUtils {
      * 获取脱敏工具类
      */
     public static SensitiveService getSensitiveService() {
-        if(SensitiveServiceUtils.sensitiveService == null){
-            SensitiveServiceUtils.sensitiveService = new AbstractSensitiveService() {};
+        if(Objects.nonNull(SensitiveServiceUtils.sensitiveService)){
+            return SensitiveServiceUtils.sensitiveService;
+        }
+        synchronized (SensitiveServiceUtils.class){
+            if(Objects.isNull(SensitiveServiceUtils.sensitiveService)){
+                SensitiveServiceUtils.sensitiveService = new AbstractSensitiveService() {};
+            }
         }
         return SensitiveServiceUtils.sensitiveService;
     }
