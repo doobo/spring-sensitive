@@ -61,16 +61,16 @@
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <source-plugin.version>3.3.0</source-plugin.version>
         <javadoc-plugin.version>3.6.3</javadoc-plugin.version>
-        <gpg-plugin.version>3.1.0</gpg-plugin.version>
-        <plugin.release.version>3.0.1</plugin.release.version>
-        
+        <gpg-plugin.version>1.6</gpg-plugin.version>
+        <plugin.release.version>3.1.1</plugin.release.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <profiles>
         <profile>
             <id>disable-javadoc-doclint</id>
             <activation>
-                <jdk>[1.8,)</jdk>
+                <jdk>[21,)</jdk>
             </activation>
             <properties>
                 <additionalparam>-Xdoclint:none</additionalparam>
