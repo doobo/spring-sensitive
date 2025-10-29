@@ -179,6 +179,8 @@
                     <target>${java.version}</target>
                     <compilerArgs>
                         <arg>-Xlint:unchecked</arg>
+                        <arg>-proc:full</arg>
+                        <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
@@ -241,6 +243,7 @@
                         </goals>
                         <configuration>
                             <additionalJOptions>-Xdoclint:none</additionalJOptions>
+                            <additionalJOptions>-Xlint:deprecation</additionalJOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -251,6 +254,7 @@
                         </goals>
                         <configuration>
                             <additionalJOptions>-Xdoclint:none</additionalJOptions>
+                            <additionalJOptions>-Xlint:deprecation</additionalJOptions>
                         </configuration>
                     </execution>
                 </executions>

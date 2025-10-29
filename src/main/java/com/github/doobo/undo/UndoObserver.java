@@ -1,20 +1,20 @@
 package com.github.doobo.undo;
 
 
-import java.util.Observable;
-import java.util.Observer;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * 观察者处理对象
  */
-public abstract class UndoObserver implements Observer {
-    
+public abstract class UndoObserver implements PropertyChangeListener {
+
     @Override
-    public void update(Observable o, Object arg) {
-        if(!(o instanceof UndoObserved) || !(arg instanceof UndoVO)){
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (!"undo".equals(evt.getPropertyName()) || !(evt.getNewValue() instanceof UndoVO)) {
             return;
         }
-        UndoVO vo = (UndoVO) arg;
+        UndoVO vo = (UndoVO) evt.getNewValue();
         if(matching(vo)){
             undoValue(vo);
         }
