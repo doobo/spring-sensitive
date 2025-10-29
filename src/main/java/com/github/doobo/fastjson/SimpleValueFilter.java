@@ -1,6 +1,6 @@
 package com.github.doobo.fastjson;
 
-import com.alibaba.fastjson.serializer.ValueFilter;
+import com.alibaba.fastjson2.filter.ValueFilter;
 import com.github.doobo.config.HandleType;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,6 @@ public class SimpleValueFilter implements ValueFilter {
 
     /**
      * fastJson字符串匹配
-     * @param desensitizationController
      */
     public SimpleValueFilter(DesensitizationParams desensitizationController) {
         for (DesensitizationParam desensitization : desensitizationController.value()) {
@@ -33,7 +32,7 @@ public class SimpleValueFilter implements ValueFilter {
     }
 
     @Override
-    public Object process(Object object, String name, Object value) {
+    public Object apply(Object object, String name, Object value) {
         if(!(value instanceof String)){
             return value;
         }

@@ -1,6 +1,6 @@
 package com.github.doobo.undo;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.github.doobo.config.HandleType;
 import com.github.doobo.config.SensitivePropertiesConfig;
 import com.jayway.jsonpath.JsonPath;
@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.github.doobo.config.SensitiveInfoUtils.CONF;
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author qpc
@@ -60,7 +59,7 @@ public class HyposensitizationAop {
         if(parameterNames == null || parameterNames.length == 0){
             return joinPoint.proceed();
         }
-        List<HyposensitizationParam> ls = Arrays.stream(params.value()).collect(toList());
+        List<HyposensitizationParam> ls = Arrays.stream(params.value()).toList();
         for(HyposensitizationParam item : ls){
             if(item.argName().isEmpty()){
                 UndoVO vo = convertVO(item, args[0]);

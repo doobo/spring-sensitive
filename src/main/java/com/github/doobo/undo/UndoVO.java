@@ -1,6 +1,6 @@
 package com.github.doobo.undo;
 
-import com.alibaba.fastjson.JSONPath;
+import com.alibaba.fastjson2.JSONPath;
 import com.github.doobo.config.HandleType;
 import lombok.Data;
 import lombok.experimental.Accessors;

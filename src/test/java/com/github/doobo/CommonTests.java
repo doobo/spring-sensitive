@@ -1,7 +1,7 @@
 package com.github.doobo;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONPath;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONPath;
 import com.github.doobo.undo.HyposensitizationAop;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.github.doobo.config.ClassUtils.isBaseType;
-import static com.github.doobo.config.ClassUtils.swapBaseType;
 
 public class CommonTests {
     
@@ -28,7 +27,7 @@ public class CommonTests {
         System.out.println(JSON.toJSONString(us));
         
         JSONPath path = JSONPath.compile("$..phone");
-        System.out.println(path.getPath());
+        //System.out.println(path.getPath());
         Map<String, Object> paths = JSONPath.paths(map);
         System.out.println(JSON.toJSONString(paths));
     }

@@ -1,7 +1,7 @@
 package com.github.doobo.fastjson;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONPath;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONPath;
 import com.github.doobo.config.*;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
@@ -155,7 +155,7 @@ public class DesensitizationAop {
                         Object value = JSONPath.eval(t, p);
                         //如果是NULL匹配,并且是封装类型,设置为空
                         if(item.type() == SensitiveType.NULL){
-                            JSONPath.set(t, p,null);
+                            JSONPath.of(p).set(t, null);
                         }else if(value instanceof String){
                             JSONPath.set(t, p, handlerDesensitization(item, (String) value));
                         }
