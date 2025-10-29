@@ -4,7 +4,7 @@
 
     <groupId>com.github.doobo</groupId>
     <artifactId>spring-sensitive</artifactId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
 
     <name>spring-sensitive</name>
     <description>A sensitive tool base on spring boot </description>
