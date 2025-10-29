@@ -231,6 +231,7 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
+            <!--mvn clean javadoc:jar-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -252,12 +253,19 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <source>${java.version}</source>
                             <additionalJOptions>-Xdoclint:none</additionalJOptions>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
+                    <source>${java.version}</source>
+                    <failOnError>false</failOnError>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <charset>UTF-8</charset>
                     <links>
                         <link>
                             http://docs.oracle.com/javase/${java.version}/docs/api
