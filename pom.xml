@@ -29,14 +29,14 @@
         <repository>
             <id>oss</id>
             <url>
-                https://oss.sonatype.org/service/local/staging/deploy/maven2
+                https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2
             </url>
         </repository>
         <snapshotRepository>
             <id>oss</id>
             <uniqueVersion>false</uniqueVersion>
             <url>
-                https://oss.sonatype.org/content/repositories/snapshots
+                https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots
             </url>
         </snapshotRepository>
     </distributionManagement>
@@ -161,6 +161,15 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>oss</publishingServerId>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
