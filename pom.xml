@@ -4,7 +4,7 @@
 
     <groupId>com.github.doobo</groupId>
     <artifactId>spring-sensitive</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
 
     <name>spring-sensitive</name>
     <description>A sensitive tool base on spring boot </description>
@@ -22,7 +22,7 @@
         <url>https://github.com/doobo/spring-sensitive</url>
         <connection>scm:git:git@github.com:doobo/spring-sensitive.git</connection>
         <developerConnection>scm:git:git@github.com:doobo/spring-sensitive.git</developerConnection>
-        <tag>v1.4</tag>
+        <tag>v1.5</tag>
     </scm>
 
     <distributionManagement>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.2</version>
             <optional>true</optional>
         </dependency>
 
